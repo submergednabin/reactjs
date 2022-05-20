@@ -3,8 +3,7 @@ import {
   BrowserRouter,
   Link,
   Routes,
-  Route,
-  NavLinkProps, Router
+  Route
 } from "react-router-dom";
 import AddPlan from "./components/AddPlan";
 import ViewPlan from "./components/ViewPlan";
