@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { counterActions } from "../store/index";
 // In this component connect is used only for class based components
 import { useSelector, useDispatch, connect } from "react-redux";
 import classes from "./Counter.module.css";
@@ -10,19 +11,23 @@ const Counter = () => {
   const show = useSelector((state) => state.showCounter);
 
   const incrementHandler = () => {
-    dispatch({ type: "increment" });
+    dispatch(counterActions.increment());
+    // dispatch({ type: "increment" });
   };
 
   const increaseHandler = () => {
-    dispatch({ type: 'increaseby5', value: 5})
+    dispatch(counterActions.increaseby5(5)); // { type: SOME_UNIQUE_IDENTIFIER, payload: 10 }
+    // dispatch({ type: 'increaseby5', value: 5})
   }
 
   const decrementHandler = () => {
-    dispatch({ type: "decrement" });
+    dispatch(counterActions.decrement());
+    // dispatch({ type: "decrement" });
   };
 
   const toggleCounterHandler = () => {
-    dispatch( { type: "toggle" })
+    dispatch(counterActions.toggleCounter());
+    // dispatch( { type: "toggle" })
   };
 
   const resetHandler = () => {
