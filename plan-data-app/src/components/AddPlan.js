@@ -15,8 +15,8 @@ const AddPlan = () => {
   const [mandatory, setMandatory] = useState(false);
   const [minVal] = useState(200);
   const [minData] = useState(20);
-  const[planErr, setPlanErr] = useState("")
-  const[dataErr, setDataErr] = useState("")
+  const [planErr, setPlanErr] = useState("");
+  const [dataErr, setDataErr] = useState("");
   const [messages] = useState({
     MANDATORY: "ALL fields are required",
     ERROR: "Something went wrong",
@@ -51,12 +51,12 @@ const AddPlan = () => {
           setMandatory(true);
         } else if (value === "Yes" && event.target.checked === true) {
           setMandatory(false);
-          setValid(true)
+          setValid(true);
           setPlanData({ ...planData, [name]: value });
         } else {
           console.log("No");
           setMandatory(false);
-          setValid(true)
+          setValid(true);
           setPlanData({ ...planData, [name]: "No" });
         }
         break;
@@ -64,11 +64,10 @@ const AddPlan = () => {
       case "addOns":
         if (value.trim() === "") {
           setMandatory(true);
-        }
-         else {
+        } else {
           setPlanData({ ...planData, [name]: value });
           setMandatory(false);
-          setValid(true)
+          setValid(true);
         }
         break;
 
@@ -76,38 +75,51 @@ const AddPlan = () => {
         // setValid(true)
         break;
     }
-
-    
-    
   };
   const submit = (e) => {
     e.preventDefault();
     const datas = {
-        planValue:planData.planValue,
-        data:planData.data,
-        calls:planData.calls,
-        addOns:planData.addOns
-    }
+      planValue: planData.planValue,
+      data: planData.data,
+      calls: planData.calls,
+      addOns: planData.addOns,
+    };
 
-    if(datas.planValue.trim()!=="" && datas.data.trim()!=="" && datas.calls.trim()!=="" && datas.addOns.trim()!==""){
-        axios.post(url,datas).then(res=>{
-            if(res.status===201){
-                setSuccessMessage(messages.SUCCESS_MESSAGE + res.data.id )
-            }else{
-                setErrorMessage(messages.ERROR)
-            }
-        }).catch(error=>{
-            setErrorMessage(messages.ERROR)
+    if (
+      datas.planValue.trim() !== "" &&
+      datas.data.trim() !== "" &&
+      datas.calls.trim() !== "" &&
+      datas.addOns.trim() !== ""
+    ) {
+      axios
+        .post(url, datas)
+        .then((res) => {
+          if (res.status === 201) {
+            setSuccessMessage(messages.SUCCESS_MESSAGE + res.data.id);
+          } else {
+            setErrorMessage(messages.ERROR);
+          }
         })
-        setPlanData({planValue:"", data:"", addOns:"", calls:""})
-    }else{
-        setErrorMessage(messages.MANDATORY)
+        .catch((error) => {
+          setErrorMessage(messages.ERROR);
+        });
+      setPlanData({ planValue: "", data: "", addOns: "", calls: "" });
+    } else {
+      setErrorMessage(messages.MANDATORY);
     }
   };
   return (
     <>
-    {successMessage.trim()!==""&& <div className="alert alert-success" role="alert">{successMessage}</div>}
-    {errorMessage.trim()!==""&& <div className="alert alert-danger" role="alert">{errorMessage} </div>}
+      {successMessage.trim() !== "" && (
+        <div className="alert alert-success" role="alert">
+          {successMessage}
+        </div>
+      )}
+      {errorMessage.trim() !== "" && (
+        <div className="alert alert-danger" role="alert">
+          {errorMessage}{" "}
+        </div>
+      )}
       <div className="container">
         <form noValidate onSubmit={submit}>
           <div className="form-group">
@@ -122,7 +134,11 @@ const AddPlan = () => {
               required={!mandatory}
             />
           </div>
-         { planErr.trim()!=="" && <div className="alert alert-danger" role="alert">{planErr} </div>}
+          {planErr.trim() !== "" && (
+            <div className="alert alert-danger" role="alert">
+              {planErr}{" "}
+            </div>
+          )}
           <div className="form-group">
             <label htmlFor="data">Data (GB)</label>
             <input
@@ -135,7 +151,11 @@ const AddPlan = () => {
               required={!mandatory}
             />
           </div>
-          { dataErr.trim()!=="" && <div className="alert alert-danger" role="alert">{dataErr} </div>}
+          {dataErr.trim() !== "" && (
+            <div className="alert alert-danger" role="alert">
+              {dataErr}{" "}
+            </div>
+          )}
           <div className="row">
             <label>Calls</label>
             <div className="form-check form-check-inline">
@@ -145,7 +165,7 @@ const AddPlan = () => {
                 id="yes"
                 name="calls"
                 value="Yes"
-                onChange={changeHandler} 
+                onChange={changeHandler}
                 required={!mandatory}
               />
               <label className="form-check-label" htmlFor="calls">
